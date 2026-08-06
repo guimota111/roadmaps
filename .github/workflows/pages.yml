@@ -1,41 +1,47 @@
-name: Deploy no GitHub Pages
+name: Publicar no GitHub Pages
+
+# O Pages deste repositório serve a branch gh-pages. Este workflow
+# regenera essa branch a partir da main a cada push, para que o site
+# publicado acompanhe o conteúdo versionado aqui.
+#
+# A rota via actions/deploy-pages não é usada porque o GITHUB_TOKEN do
+# app não consegue criar o site do Pages ("Resource not accessible by
+# integration"), e a fonte configurada é a branch.
 
 on:
   push:
     branches:
       - main
-      - claude/ai-pathology-roadmap-6rd789
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: pages
+  group: gh-pages
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  publicar:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/configure-pages@v5
-        with:
-          # Habilita o Pages no repositório caso ainda não esteja ligado,
-          # dispensando a configuração manual em Settings.
-          enablement: true
+      - name: Regenerar a branch gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
 
-      - name: Empacotar o site
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
+          site="$(mktemp -d)"
+          cp index.html .nojekyll "$site/"
 
-      - name: Publicar
-        id: deployment
-        uses: actions/deploy-pages@v4
+          cd "$site"
+          git init --quiet --initial-branch=gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --all
+          git commit --quiet -m "Publica ${GITHUB_SHA:0:7}"
+          git push --force --quiet \
+            "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+            gh-pages

@@ -1,0 +1,43 @@
+rules_version = '2';
+
+// Regras de segurança do Firestore para o controle de estudos.
+//
+// Publicar: Console do Firebase → Firestore Database → Regras → colar → Publicar.
+// (Ou `firebase deploy --only firestore:rules` se você usar a CLI.)
+//
+// Modelo: cada usuário autenticado lê e escreve exclusivamente o próprio
+// documento em usuarios/{uid}. Ninguém enxerga o documento de ninguém.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /usuarios/{uid} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == uid;
+
+      // Nada abaixo de usuarios/{uid} é acessível por padrão; libere
+      // explicitamente se um dia houver subcoleções.
+      match /{documento=**} {
+        allow read, write: if request.auth != null
+                           && request.auth.uid == uid;
+      }
+    }
+
+    // Tudo o mais é negado.
+    match /{documento=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
+// --------------------------------------------------------------------
+// Quer travar em UMA conta só (o site é de uso pessoal)?
+// Troque a condição do bloco usuarios/{uid} por:
+//
+//   allow read, write: if request.auth != null
+//                      && request.auth.uid == uid
+//                      && request.auth.token.email == 'seu-email@gmail.com';
+//
+// Assim, mesmo que alguém descubra a config do app e faça login com
+// Google, não consegue criar dados no seu projeto.
+// --------------------------------------------------------------------

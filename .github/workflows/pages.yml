@@ -34,7 +34,7 @@ jobs:
           set -euo pipefail
 
           site="$(mktemp -d)"
-          cp index.html .nojekyll "$site/"
+          cp -r index.html .nojekyll assets data "$site/"
 
           cd "$site"
           git init --quiet --initial-branch=gh-pages

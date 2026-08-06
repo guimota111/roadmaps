@@ -6,7 +6,9 @@
 <title>Meus roadmaps de estudo</title>
 <meta name="description" content="Fluxogramas de estudo com controle de progresso, anotações e sincronização." />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>" />
-<link rel="stylesheet" href="assets/app.css" />
+<!-- O ?v= é trocado pelo hash do commit durante a publicação, para que
+     um deploy novo nunca seja servido com arquivo antigo em cache. -->
+<link rel="stylesheet" href="assets/app.css?v=dev" />
 </head>
 <body>
 
@@ -60,14 +62,14 @@
 <div class="brinde" id="brinde" role="status" aria-live="polite"></div>
 
 <!-- Configuração e sincronização (opcionais: sem elas, o site roda em modo local) -->
-<script src="assets/firebase-config.js"></script>
-<script type="module" src="assets/sync.js"></script>
+<script src="assets/firebase-config.js?v=dev"></script>
+<script type="module" src="assets/sync.js?v=dev"></script>
 
 <!-- Motor -->
-<script defer src="assets/app.js"></script>
+<script defer src="assets/app.js?v=dev"></script>
 
 <!-- Roadmaps. Para adicionar um novo, crie o arquivo em data/ e some uma linha aqui. -->
-<script defer src="data/patologia-digital.js"></script>
+<script defer src="data/patologia-digital.js?v=dev"></script>
 
 </body>
 </html>

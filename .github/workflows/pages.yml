@@ -36,6 +36,10 @@ jobs:
           site="$(mktemp -d)"
           cp -r index.html .nojekyll assets data "$site/"
 
+          # Carimba o commit nas URLs dos arquivos. Sem isso, o navegador
+          # continua servindo CSS e JS antigos depois de um deploy novo.
+          sed -i "s/?v=dev/?v=${GITHUB_SHA:0:7}/g" "$site/index.html"
+
           cd "$site"
           git init --quiet --initial-branch=gh-pages
           git config user.name "github-actions[bot]"

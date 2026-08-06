@@ -1,0 +1,1287 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Roadmap — IA aplicada à Patologia Digital</title>
+<meta name="description" content="Roadmap de aprendizado e carreira para um médico patologista construir um produto na interseção de IA e patologia digital." />
+<style>
+/* ---------- tokens ---------- */
+:root{
+  --hematox:#45348A;      /* trilha técnica */
+  --dab:#8A5A2B;          /* trilha regulatória */
+  --eosin:#C9557C;        /* trilha produto */
+
+  --ground:#FBFAFC;
+  --surface:#FFFFFF;
+  --surface-2:#F4F2F8;
+  --ink:#1E1A2B;
+  --ink-2:#4A4459;
+  --ink-3:#78718A;
+  --line:#E4E0EC;
+  --line-2:#D2CCE0;
+  --focus:#45348A;
+
+  --font-display:Georgia,"Iowan Old Style","Palatino Linotype",ui-serif,serif;
+  --font-body:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --font-mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+
+  --measure:66ch;
+  --shell:1280px;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --hematox:#A99BE8;
+    --dab:#C99A62;
+    --eosin:#E8809F;
+    --ground:#14111C;
+    --surface:#1B1725;
+    --surface-2:#221D30;
+    --ink:#EDE9F5;
+    --ink-2:#BDB6CC;
+    --ink-3:#8E869F;
+    --line:#2C2640;
+    --line-2:#3A3350;
+    --focus:#A99BE8;
+  }
+}
+:root[data-theme="dark"]{
+  --hematox:#A99BE8; --dab:#C99A62; --eosin:#E8809F;
+  --ground:#14111C; --surface:#1B1725; --surface-2:#221D30;
+  --ink:#EDE9F5; --ink-2:#BDB6CC; --ink-3:#8E869F;
+  --line:#2C2640; --line-2:#3A3350; --focus:#A99BE8;
+}
+:root[data-theme="light"]{
+  --hematox:#45348A; --dab:#8A5A2B; --eosin:#C9557C;
+  --ground:#FBFAFC; --surface:#FFFFFF; --surface-2:#F4F2F8;
+  --ink:#1E1A2B; --ink-2:#4A4459; --ink-3:#78718A;
+  --line:#E4E0EC; --line-2:#D2CCE0; --focus:#45348A;
+}
+
+/* ---------- base ---------- */
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none;border-bottom:1px solid var(--line-2);transition:border-color .15s,color .15s}
+a:hover{color:var(--hematox);border-bottom-color:var(--hematox)}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:2px}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;text-wrap:balance;margin:0;line-height:1.18;letter-spacing:-.01em}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+
+.shell{max-width:var(--shell);margin:0 auto;padding:0 28px}
+@media (max-width:640px){.shell{padding:0 18px}}
+
+.eyebrow{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+}
+
+/* ---------- masthead ---------- */
+.masthead{
+  border-bottom:1px solid var(--line);
+  background:var(--surface);
+  padding:72px 0 44px;
+}
+.masthead .shell{display:flex;flex-direction:column;gap:26px}
+.mast-title{font-size:clamp(2.1rem,5vw,3.4rem)}
+.mast-title em{font-style:italic;color:var(--hematox)}
+.mast-lede{max-width:var(--measure);color:var(--ink-2);font-size:1.06rem}
+
+.params{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+  margin-top:6px;
+}
+.param{background:var(--surface);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.param dt{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.param dd{margin:0;font-size:.92rem;color:var(--ink);font-weight:500;line-height:1.4}
+
+/* ---------- sticky bar ---------- */
+.rail{
+  position:sticky;top:0;z-index:50;
+  background:color-mix(in srgb,var(--ground) 88%,transparent);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.rail-in{display:flex;align-items:center;gap:18px;height:52px}
+.rail-nav{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1}
+.rail-nav::-webkit-scrollbar{display:none}
+.rail-nav a{
+  font-family:var(--font-mono);font-size:11.5px;letter-spacing:.06em;
+  padding:6px 10px;white-space:nowrap;border:0;color:var(--ink-3);
+  border-radius:2px;
+}
+.rail-nav a:hover{color:var(--ink);background:var(--surface-2)}
+.rail-nav a.on{color:var(--ink);background:var(--surface-2);box-shadow:inset 0 -2px 0 var(--hematox)}
+.rail-meter{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.meter-track{width:88px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.meter-fill{height:100%;width:0;background:var(--hematox);transition:width .35s ease}
+.meter-num{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);font-variant-numeric:tabular-nums;min-width:52px}
+.rail-reset{
+  font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+  background:none;border:1px solid var(--line-2);color:var(--ink-3);
+  padding:5px 9px;border-radius:2px;cursor:pointer;flex-shrink:0;
+}
+.rail-reset:hover{color:var(--ink);border-color:var(--ink-3)}
+@media (max-width:900px){.rail-meter,.rail-reset{display:none}}
+
+/* ---------- generic section ---------- */
+.band{padding:56px 0;border-bottom:1px solid var(--line)}
+.band-head{display:flex;flex-direction:column;gap:10px;margin-bottom:28px;max-width:var(--measure)}
+.band-head h2{font-size:clamp(1.5rem,3vw,2rem)}
+.band-head p{color:var(--ink-2)}
+
+/* ---------- método ---------- */
+.method{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.method>div{background:var(--surface);padding:20px 22px;display:flex;flex-direction:column;gap:8px}
+.method h3{font-size:1.02rem}
+.method p{font-size:.9rem;color:var(--ink-2);line-height:1.55}
+
+.note{
+  border-left:3px solid var(--hematox);
+  background:var(--surface-2);
+  padding:18px 22px;
+  display:flex;flex-direction:column;gap:8px;
+  margin-top:24px;
+}
+.note h3{font-size:1rem}
+.note p{font-size:.92rem;color:var(--ink-2);max-width:var(--measure)}
+.note.warn{border-left-color:var(--eosin)}
+
+/* ---------- fases ---------- */
+.phase{padding:56px 0;border-bottom:1px solid var(--line)}
+.phase-head{display:flex;flex-direction:column;gap:12px;margin-bottom:30px}
+.phase-top{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+.phase-num{
+  font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;
+  color:var(--hematox);border:1px solid var(--hematox);
+  padding:3px 8px;border-radius:2px;flex-shrink:0;
+}
+.phase-top h2{font-size:clamp(1.45rem,3vw,2.05rem);flex:1;min-width:220px}
+.phase-span{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);letter-spacing:.06em}
+.phase-thesis{max-width:var(--measure);color:var(--ink-2);font-size:1rem}
+
+.tracks{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+@media (max-width:1000px){.tracks{grid-template-columns:1fr}}
+
+.track{background:var(--surface);padding:0;display:flex;flex-direction:column}
+.track-head{
+  display:flex;align-items:center;gap:9px;
+  padding:14px 20px 12px;
+  border-bottom:1px solid var(--line);
+}
+.track-head::before{content:"";width:9px;height:9px;flex-shrink:0;background:var(--tc)}
+.track-head span{font-family:var(--font-mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--tc);font-weight:600}
+.track--tec{--tc:var(--hematox)}
+.track--reg{--tc:var(--dab)}
+.track--prod{--tc:var(--eosin)}
+
+.items{display:flex;flex-direction:column}
+.item{
+  display:grid;grid-template-columns:auto 1fr;gap:11px;
+  padding:13px 20px;border-bottom:1px solid var(--line);
+  cursor:pointer;transition:background .12s;
+}
+.item:last-child{border-bottom:0}
+.item:hover{background:var(--surface-2)}
+.item input{
+  appearance:none;-webkit-appearance:none;
+  width:15px;height:15px;margin:4px 0 0;flex-shrink:0;
+  border:1.5px solid var(--line-2);border-radius:2px;background:var(--surface);
+  cursor:pointer;position:relative;transition:background .15s,border-color .15s;
+}
+.item input:checked{background:var(--tc);border-color:var(--tc)}
+.item input:checked::after{
+  content:"";position:absolute;left:4px;top:1px;
+  width:4px;height:8px;border:solid var(--surface);
+  border-width:0 2px 2px 0;transform:rotate(42deg);
+}
+.item-body{display:flex;flex-direction:column;gap:4px;min-width:0}
+.item-title{font-size:.93rem;line-height:1.45;font-weight:500}
+.item input:checked ~ .item-body .item-title{color:var(--ink-3);text-decoration:line-through;text-decoration-color:var(--line-2)}
+.item-meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.tag{
+  font-family:var(--font-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-3);border:1px solid var(--line);padding:1px 5px;border-radius:2px;
+}
+.item-note{font-size:.83rem;color:var(--ink-3);line-height:1.5}
+.item-note a{border-bottom-color:var(--line-2)}
+
+/* ---------- marco ---------- */
+.marco{
+  border:1px solid var(--line);border-top:0;
+  background:var(--surface-2);
+  padding:20px 22px;
+  display:flex;flex-direction:column;gap:12px;
+}
+.marco-head{display:flex;align-items:center;gap:10px}
+.marco-head .eyebrow{color:var(--ink-2)}
+.marco ul{display:flex;flex-direction:column;gap:9px}
+.marco li{
+  font-size:.91rem;color:var(--ink-2);line-height:1.5;
+  padding-left:16px;position:relative;max-width:78ch;
+}
+.marco li::before{content:"";position:absolute;left:0;top:.6em;width:7px;height:1.5px;background:var(--ink-3)}
+.marco li strong{color:var(--ink);font-weight:600}
+
+/* ---------- gate ---------- */
+.gate{padding:60px 0;border-bottom:1px solid var(--line);background:var(--surface)}
+.gate-head{display:flex;flex-direction:column;gap:12px;margin-bottom:28px;max-width:var(--measure)}
+.gate-head h2{font-size:clamp(1.45rem,3vw,2.05rem)}
+.gate-head p{color:var(--ink-2)}
+.forks{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+@media (max-width:960px){.forks{grid-template-columns:1fr}}
+.fork{background:var(--ground);padding:22px;display:flex;flex-direction:column;gap:13px}
+.fork h3{font-size:1.05rem}
+.fork-row{display:flex;flex-direction:column;gap:3px}
+.fork-row dt{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3)}
+.fork-row dd{margin:0;font-size:.87rem;color:var(--ink-2);line-height:1.5}
+.fork-row dd strong{color:var(--ink)}
+
+/* ---------- listas simples ---------- */
+.cols2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.cols2>div{background:var(--surface);padding:22px;display:flex;flex-direction:column;gap:12px}
+.cols2 h3{font-size:1.02rem}
+.cols2 ul{display:flex;flex-direction:column;gap:8px}
+.cols2 li{font-size:.89rem;color:var(--ink-2);line-height:1.5;padding-left:15px;position:relative}
+.cols2 li::before{content:"";position:absolute;left:0;top:.62em;width:6px;height:1.5px;background:var(--line-2)}
+.cols2 li strong{color:var(--ink);font-weight:600}
+
+.traps{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line)}
+.trap{background:var(--surface);padding:18px 22px;display:grid;grid-template-columns:minmax(0,300px) 1fr;gap:20px}
+@media (max-width:760px){.trap{grid-template-columns:1fr;gap:6px}}
+.trap h3{font-size:.98rem;color:var(--eosin)}
+.trap p{font-size:.89rem;color:var(--ink-2);line-height:1.55}
+
+/* ---------- footer ---------- */
+.foot{padding:44px 0 64px}
+.foot .shell{display:flex;flex-direction:column;gap:14px}
+.foot p{font-size:.85rem;color:var(--ink-3);max-width:78ch;line-height:1.6}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+html{scroll-behavior:smooth;scroll-padding-top:66px}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="shell">
+    <p class="eyebrow">Roadmap pessoal · patologia computacional</p>
+    <h1 class="mast-title">Do laudo ao modelo:<br />construir um produto de <em>IA em patologia digital</em></h1>
+    <p class="mast-lede">
+      Um percurso completo, sem prazo fixo, de quem já é patologista e sabe programar um pouco
+      até quem consegue prototipar, validar e defender um produto de IA para lâminas digitais.
+      As três trilhas — técnica, regulatória e de produto — correm <strong>em paralelo</strong>.
+      Cada fase só termina quando o marco de checagem passa.
+    </p>
+    <dl class="params">
+      <div class="param"><dt>Ponto de partida</dt><dd>Patologista clínico, programação básica, zero ML formal</dd></div>
+      <div class="param"><dt>Papel pretendido</dt><dd>Clínico-fundador que constrói protótipos</dd></div>
+      <div class="param"><dt>Mercado inicial</dt><dd>Brasil — Anvisa, com olho no FDA depois</dd></div>
+      <div class="param"><dt>Computação</dt><dd>Notebook comum — sem GPU própria</dd></div>
+      <div class="param"><dt>Vertical do produto</dt><dd>Em aberto — decidida na Fase 2½</dd></div>
+      <div class="param"><dt>Ritmo</dt><dd>Part-time consistente, ~8–10 h/semana</dd></div>
+    </dl>
+  </div>
+</header>
+
+<nav class="rail" aria-label="Navegação por fase">
+  <div class="shell rail-in">
+    <div class="rail-nav" id="railNav">
+      <a href="#metodo">Método</a>
+      <a href="#f0">0 · Base</a>
+      <a href="#f1">1 · ML</a>
+      <a href="#f2">2 · Visão + WSI</a>
+      <a href="#gate">↳ Escolha</a>
+      <a href="#f3">3 · Patologia comp.</a>
+      <a href="#f4">4 · Produto</a>
+      <a href="#f5">5 · Escala</a>
+      <a href="#stack">Stack</a>
+      <a href="#armadilhas">Armadilhas</a>
+    </div>
+    <div class="rail-meter" title="Itens concluídos">
+      <div class="meter-track"><div class="meter-fill" id="meterFill"></div></div>
+      <span class="meter-num" id="meterNum">0 / 0</span>
+    </div>
+    <button class="rail-reset" id="resetBtn" type="button">Zerar</button>
+  </div>
+</nav>
+
+<!-- ============ MÉTODO ============ -->
+<section class="band" id="metodo">
+  <div class="shell">
+    <div class="band-head">
+      <p class="eyebrow">Como este roadmap funciona</p>
+      <h2>Seis fases sequenciais, três trilhas paralelas</h2>
+      <p>
+        As fases são uma sequência de verdade: você não consegue avaliar um modelo de patologia
+        sem entender validação cruzada. As trilhas não são — você deveria estar lendo a RDC 657
+        e entrevistando patologistas <em>enquanto</em> aprende regressão logística, não depois.
+      </p>
+    </div>
+    <div class="method">
+      <div>
+        <h3>Divisão do tempo</h3>
+        <p>Aproximadamente 60% técnica, 20% regulatória, 20% produto. A trilha técnica é a mais lenta e a que trava tudo; as outras duas são leitura e conversa, e cabem em intervalos.</p>
+      </div>
+      <div>
+        <h3>Um projeto por fase</h3>
+        <p>Curso assistido não conta. Cada fase termina com um artefato que existe: um notebook que roda, um documento escrito, uma entrevista transcrita. O marco de checagem descreve esse artefato.</p>
+      </div>
+      <div>
+        <h3>Durações são estimativas</h3>
+        <p>Os intervalos assumem ~8–10 h/semana e servem para você notar quando está muito fora da curva — não são prazo. Fase que se arrasta 3× o previsto é sinal de lacuna na fase anterior.</p>
+      </div>
+      <div>
+        <h3>Sua vantagem injusta</h3>
+        <p>Você já é o usuário final e já tem acesso ao domínio. Engenheiro de ML leva anos para conseguir o que você tem de graça: saber o que dói na rotina e falar a língua de quem compra.</p>
+      </div>
+    </div>
+
+    <div class="note">
+      <h3>Sem GPU: por que isso importa menos do que parece</h3>
+      <p>
+        A patologia computacional moderna praticamente não treina redes do zero. O padrão hoje é:
+        pegar um <strong>foundation model</strong> pré-treinado em milhões de lâminas (UNI, Virchow, Prov-GigaPath),
+        <strong>congelar</strong> os pesos, usá-lo só como extrator de <em>features</em>, e treinar em cima
+        um agregador pequeno — que roda em CPU em minutos. Extração de features de algumas centenas de lâminas
+        cabe no Colab gratuito rodando aos poucos. O roadmap inteiro foi montado nesse pressuposto:
+        você só precisa de GPU paga (Colab Pro, RunPod, Lambda — dezenas de dólares, não milhares)
+        na Fase 3, e mesmo assim de forma esporádica.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FASE 0 ============ -->
+<section class="phase" id="f0">
+  <div class="shell">
+    <div class="phase-head">
+      <div class="phase-top">
+        <span class="phase-num">FASE 0</span>
+        <h2>Base — ferramentas e vocabulário</h2>
+        <span class="phase-span">≈ 2–4 meses</span>
+      </div>
+      <p class="phase-thesis">
+        Você já programa, mas provavelmente não no dialeto de dados. O objetivo aqui é ficar
+        confortável no ambiente onde todo o resto vai acontecer, e ler as duas normas que definem
+        o que você pode ou não construir.
+      </p>
+    </div>
+
+    <div class="tracks">
+      <div class="track track--tec">
+        <div class="track-head"><span>Técnica</span></div>
+        <ul class="items">
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Python científico: NumPy, pandas, matplotlib</span>
+            <span class="item-meta"><span class="tag">livro</span><span class="tag">grátis</span></span>
+            <span class="item-note"><a href="https://wesmckinney.com/book/">Python for Data Analysis</a>, 3ª ed., Wes McKinney — versão online liberada pelo autor. Caps. 4–10.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Kaggle Learn: Python → Pandas → Intro to ML</span>
+            <span class="item-meta"><span class="tag">curso</span><span class="tag">grátis</span></span>
+            <span class="item-note"><a href="https://www.kaggle.com/learn">kaggle.com/learn</a> — micro-cursos de 3–5 h cada. É o aquecimento mais rápido que existe.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Ambiente: Google Colab + Git/GitHub</span>
+            <span class="item-meta"><span class="tag">ferramenta</span></span>
+            <span class="item-note">Colab é onde você vai viver (GPU T4 esporádica de graça). Aprenda <code>git commit / branch / push</code> — seu roadmap depende de manter código versionado, e depois será exigência regulatória.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Estatística que sustenta ML clínico</span>
+            <span class="item-meta"><span class="tag">vídeo</span><span class="tag">grátis</span></span>
+            <span class="item-note">StatQuest (Josh Starmer, YouTube): sensibilidade/especificidade, ROC e AUC, viés-variância, validação cruzada. Você já domina metade disso da patologia — falta o vocabulário de ML.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">scikit-learn no básico: fit / predict / avaliar</span>
+            <span class="item-meta"><span class="tag">prática</span></span>
+            <span class="item-note">Um classificador tabular ponta a ponta com dados clínicos reais ou públicos. Matriz de confusão, ROC, e o hábito de sempre separar treino/teste.</span>
+          </span></label></li>
+        </ul>
+      </div>
+
+      <div class="track track--reg">
+        <div class="track-head"><span>Regulatória &amp; clínica</span></div>
+        <ul class="items">
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">RDC 751/2022 — classificação de dispositivos médicos</span>
+            <span class="item-meta"><span class="tag">norma</span></span>
+            <span class="item-note">Ler na íntegra em <a href="https://www.gov.br/anvisa/">gov.br/anvisa</a>. É a norma que define as classes de risco I a IV e o que é notificação vs. registro.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">RDC 657/2022 — software como dispositivo médico</span>
+            <span class="item-meta"><span class="tag">norma</span></span>
+            <span class="item-note">O texto central para você. Define quando um software é dispositivo médico (SaMD) e quando não é. Leia com uma pergunta na cabeça: "o que eu poderia construir que ficasse <em>fora</em> disso?"</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">IMDRF: framework de SaMD (documento N12)</span>
+            <span class="item-meta"><span class="tag">framework</span></span>
+            <span class="item-note">É a base internacional da qual a RDC 657 deriva. A matriz "significância da informação × condição clínica" é o que vai determinar sua classe de risco — entenda-a antes de escolher o produto.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Mapear o marco de telepatologia brasileiro</span>
+            <span class="item-meta"><span class="tag">norma</span></span>
+            <span class="item-note">Resoluções do CFM sobre telepatologia e telemedicina, e a LGPD aplicada a dado de saúde. Define o que você pode fazer com imagens de casos reais.</span>
+          </span></label></li>
+        </ul>
+      </div>
+
+      <div class="track track--prod">
+        <div class="track-head"><span>Produto &amp; negócio</span></div>
+        <ul class="items">
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Cronometrar a própria rotina por 2 semanas</span>
+            <span class="item-meta"><span class="tag">ação</span></span>
+            <span class="item-note">Registre onde o tempo vai: triagem, mensuração, contagem, digitação, busca de caso antigo, segunda opinião, macroscopia, conferência. Esse diário é seu primeiro dataset de mercado — e ninguém mais tem.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">The Mom Test — Rob Fitzpatrick</span>
+            <span class="item-meta"><span class="tag">livro</span></span>
+            <span class="item-note">Livro curto (~130 pp.) sobre como conversar com usuários sem colher elogios inúteis. Leia antes de falar com o primeiro colega, não depois.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Inventário do seu próprio serviço</span>
+            <span class="item-meta"><span class="tag">ação</span></span>
+            <span class="item-note">Qual scanner (se houver), qual formato de arquivo gera, qual sistema de laudo (LIS/AP-LIS), volume de lâminas/mês, quem decide compra de software. Você vai precisar disso na Fase 2 e não custa nada agora.</span>
+          </span></label></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="marco">
+      <div class="marco-head"><span class="eyebrow">Marco de checagem — Fase 0</span></div>
+      <ul>
+        <li><strong>Técnica:</strong> você carrega um CSV, treina um classificador em scikit-learn, plota a curva ROC e explica por que a acurácia sozinha é enganosa numa classe rara — sem consultar nada.</li>
+        <li><strong>Regulatória:</strong> você consegue explicar, em duas frases e para um colega, a diferença entre um software que é dispositivo médico e um que não é, citando a norma.</li>
+        <li><strong>Produto:</strong> você tem uma lista escrita de 15+ tarefas repetitivas da sua rotina, com estimativa de tempo semanal para cada uma.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FASE 1 ============ -->
+<section class="phase" id="f1">
+  <div class="shell">
+    <div class="phase-head">
+      <div class="phase-top">
+        <span class="phase-num">FASE 1</span>
+        <h2>Machine learning e deep learning</h2>
+        <span class="phase-span">≈ 6–9 meses</span>
+      </div>
+      <p class="phase-thesis">
+        A fase mais longa e a que mais gente abandona. Faça os dois cursos abaixo em paralelo:
+        o de Andrew Ng dá a intuição de baixo para cima, o fast.ai te faz treinar algo que funciona
+        na primeira semana. Um sozinho é insuficiente; juntos se sustentam.
+      </p>
+    </div>
+
+    <div class="tracks">
+      <div class="track track--tec">
+        <div class="track-head"><span>Técnica</span></div>
+        <ul class="items">
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Machine Learning Specialization — Andrew Ng / DeepLearning.AI</span>
+            <span class="item-meta"><span class="tag">curso</span><span class="tag">3 módulos</span></span>
+            <span class="item-note">Coursera (auditável de graça). Regressão, classificação, redes neurais, árvores, e a parte mais valiosa: <em>ML Advice</em> — como diagnosticar um modelo que não funciona.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Practical Deep Learning for Coders — fast.ai, Parte 1</span>
+            <span class="item-meta"><span class="tag">curso</span><span class="tag">grátis</span></span>
+            <span class="item-note"><a href="https://course.fast.ai/">course.fast.ai</a> — abordagem de cima para baixo, roda inteiro no Colab. Ao final da lição 2 você já treinou um classificador de imagens. Jeremy Howard é explicitamente orientado a médicos e não-engenheiros.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Hands-On Machine Learning — Aurélien Géron, 3ª ed.</span>
+            <span class="item-meta"><span class="tag">livro</span><span class="tag">referência</span></span>
+            <span class="item-note">Use como referência de consulta, não leitura linear. Caps. 1–9 (ML clássico) e 10–14 (redes neurais e CNNs) são os que importam.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">PyTorch de verdade, não só via wrapper</span>
+            <span class="item-meta"><span class="tag">prática</span></span>
+            <span class="item-note">Tutoriais oficiais (<em>60 Minute Blitz</em> → <em>Training a Classifier</em>). Escreva um loop de treino à mão pelo menos uma vez: tensores, <code>DataLoader</code>, forward, loss, <code>backward</code>, <code>optimizer.step()</code>. Toda a patologia computacional é PyTorch.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">CNNs: convolução, pooling, transfer learning</span>
+            <span class="item-meta"><span class="tag">conceito</span></span>
+            <span class="item-note">Entender ResNet e por que transfer learning funciona. Aqui aparece o conceito que vai dominar sua Fase 3: <em>congelar o backbone e treinar só a cabeça</em>.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Projeto: classificador em PatchCamelyon (PCam)</span>
+            <span class="item-meta"><span class="tag">dataset</span><span class="tag">projeto</span></span>
+            <span class="item-note">327 mil patches 96×96 de linfonodo com/sem metástase, derivado do CAMELYON16. É <strong>o</strong> dataset de entrada da patologia computacional: pequeno, roda em Colab grátis, e o problema é clinicamente familiar para você. Meta: AUC &gt; 0,95.</span>
+          </span></label></li>
+        </ul>
+      </div>
+
+      <div class="track track--reg">
+        <div class="track-head"><span>Regulatória &amp; clínica</span></div>
+        <ul class="items">
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Verificação analítica × validação clínica</span>
+            <span class="item-meta"><span class="tag">conceito</span></span>
+            <span class="item-note">A distinção que separa um notebook bonito de um produto aprovável. "O modelo acerta no meu teste" é analítico; "o patologista com o modelo é melhor que sem" é clínico — e só o segundo aprova.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Dissecar um produto já aprovado</span>
+            <span class="item-meta"><span class="tag">ação</span></span>
+            <span class="item-note">Pegue a documentação pública do <strong>Paige Prostate</strong> (primeira IA de patologia autorizada pelo FDA, via De Novo, 2021) e leia a indicação de uso palavra por palavra. Repare como o escopo é estreito — "auxiliar na detecção de câncer em biópsias de próstata" — e por quê.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Ler os papers de validação clínica dos players</span>
+            <span class="item-meta"><span class="tag">paper</span></span>
+            <span class="item-note">Estudos de validação de Paige e Ibex publicados em revistas de patologia. Você vai reconhecer o desenho: coorte multicêntrica, leitura cega, comparação com consenso de referência. É o mesmo desenho que você vai precisar.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Entender o desenho de <em>reader study</em> (MRMC)</span>
+            <span class="item-meta"><span class="tag">método</span></span>
+            <span class="item-note">Multi-Reader Multi-Case: vários patologistas leem os mesmos casos com e sem a IA. É o padrão-ouro para provar benefício de ferramenta assistiva — e o que reguladores esperam ver.</span>
+          </span></label></li>
+        </ul>
+      </div>
+
+      <div class="track track--prod">
+        <div class="track-head"><span>Produto &amp; negócio</span></div>
+        <ul class="items">
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">10 entrevistas com patologistas + 3 com gestores de lab</span>
+            <span class="item-meta"><span class="tag">ação</span><span class="tag">crítico</span></span>
+            <span class="item-note">Sem vender nada, sem descrever ideia. Só perguntar o que fizeram na última semana e o que deu errado. Gestor de laboratório é uma persona <em>diferente</em> do patologista e é quem assina — não confunda as duas.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Mapa de players internacionais</span>
+            <span class="item-meta"><span class="tag">pesquisa</span></span>
+            <span class="item-note">Paige, PathAI, Ibex Medical Analytics, Proscia, Aiforia, Owkin, Techcyte, Deep Bio, Mindpeak. Para cada um: o que vende, para quem, aprovado onde. Descubra o que <em>ninguém</em> está atacando.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Mapa do mercado brasileiro</span>
+            <span class="item-meta"><span class="tag">pesquisa</span></span>
+            <span class="item-note">Quem já digitalizou: grandes grupos de medicina diagnóstica, laboratórios de anatomia patológica de referência, hospitais universitários. Fabricantes de scanner presentes no país (Leica/Aperio, 3DHISTECH, Hamamatsu, Grundium) e seus distribuidores. Digitalização é pré-requisito do seu mercado — e ela é escassa aqui.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Entrar nas comunidades da área</span>
+            <span class="item-meta"><span class="tag">rede</span></span>
+            <span class="item-note">Digital Pathology Association, o círculo #PathTwitter/#PathX, o workshop COMPAY do MICCAI, e a Sociedade Brasileira de Patologia. Custo zero, retorno desproporcional.</span>
+          </span></label></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="marco">
+      <div class="marco-head"><span class="eyebrow">Marco de checagem — Fase 1</span></div>
+      <ul>
+        <li><strong>Técnica:</strong> você treina uma CNN em PatchCamelyon do zero em Colab, atinge AUC &gt; 0,95, e — mais importante — consegue olhar uma curva de treino e dizer se o problema é overfitting, learning rate alto ou dado ruim.</li>
+        <li><strong>Regulatória:</strong> você explica por que "meu modelo tem 97% de acurácia" não é argumento regulatório, e descreve o desenho de estudo que seria.</li>
+        <li><strong>Produto:</strong> 13 entrevistas feitas e transcritas, com pelo menos 3 dores que apareceram em mais da metade delas e que você não tinha previsto.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FASE 2 ============ -->
+<section class="phase" id="f2">
+  <div class="shell">
+    <div class="phase-head">
+      <div class="phase-top">
+        <span class="phase-num">FASE 2</span>
+        <h2>Visão computacional e o mundo da lâmina inteira</h2>
+        <span class="phase-span">≈ 6–9 meses</span>
+      </div>
+      <p class="phase-thesis">
+        Aqui o problema deixa de ser genérico. Uma WSI tem ~100 000 × 100 000 pixels e um rótulo só
+        no nível do caso — nada do que você aprendeu na Fase 1 lida com isso diretamente.
+        Esta fase é sobre domar o formato antes de modelar.
+      </p>
+    </div>
+
+    <div class="tracks">
+      <div class="track track--tec">
+        <div class="track-head"><span>Técnica</span></div>
+        <ul class="items">
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Vision Transformers</span>
+            <span class="item-meta"><span class="tag">paper</span><span class="tag">fundamental</span></span>
+            <span class="item-note">"An Image is Worth 16×16 Words" (Dosovitskiy et al., 2020). Praticamente todo foundation model de patologia é um ViT — sem entender patches, atenção e o token de classe, a Fase 3 vira caixa-preta.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Self-supervised learning: DINOv2, SimCLR, MAE</span>
+            <span class="item-meta"><span class="tag">paper</span></span>
+            <span class="item-note">Por que dá para treinar em milhões de lâminas sem rótulo. DINOv2 (Oquab et al., 2023) é a receita por trás de vários modelos de patologia. Entenda o conceito; não precisa reimplementar.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Ler WSI em código: OpenSlide e formatos</span>
+            <span class="item-meta"><span class="tag">ferramenta</span></span>
+            <span class="item-note"><a href="https://openslide.org/">OpenSlide</a> — abrir <code>.svs</code>, <code>.ndpi</code>, <code>.mrxs</code>, pirâmide de resolução, níveis, MPP. Conheça também o DICOM WSI (Suplemento 145), que é para onde a interoperabilidade está indo.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">TIAToolbox</span>
+            <span class="item-meta"><span class="tag">repo</span><span class="tag">grátis</span></span>
+            <span class="item-note"><a href="https://github.com/TissueImageAnalytics/tiatoolbox">TissueImageAnalytics/tiatoolbox</a> (Univ. Warwick). Tiling, detecção de tecido, normalização de coloração, inferência — com notebooks de exemplo excelentes. É o melhor ponto de entrada prático da área.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Pipeline de tiling: segmentação de tecido e filtragem</span>
+            <span class="item-meta"><span class="tag">prática</span></span>
+            <span class="item-note">Otsu ou limiar em HSV para separar tecido de fundo, descartar tiles de vidro, borrão e artefato. Trabalho sujo e não glamouroso — e responsável por boa parte da diferença entre um pipeline que funciona e um que não.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Normalização de coloração: Macenko e Vahadane</span>
+            <span class="item-meta"><span class="tag">método</span><span class="tag">repo</span></span>
+            <span class="item-note">Biblioteca <code>torchstain</code>. Você sabe melhor que ninguém como a H&amp;E varia entre laboratórios — essa variação é a principal causa de modelo que despenca fora do hospital onde nasceu.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">QuPath — e scripting em Groovy</span>
+            <span class="item-meta"><span class="tag">ferramenta</span><span class="tag">grátis</span></span>
+            <span class="item-note"><a href="https://qupath.github.io/">qupath.github.io</a> (Bankhead et al., 2017). Você já é o usuário-alvo: anotação, contagem, análise de IHQ, exportação de regiões. Aprenda a automatizar via script — é o caminho mais curto entre "tenho uma ideia" e "tenho um protótipo que um patologista consegue usar".</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Conhecer os datasets públicos de referência</span>
+            <span class="item-meta"><span class="tag">dataset</span></span>
+            <span class="item-note">
+              <strong>CAMELYON16/17</strong> (metástase em linfonodo) ·
+              <strong>PANDA</strong> (Gleason, via Kaggle) ·
+              <strong>TCGA</strong> (milhares de WSI + dados moleculares e de sobrevida, pelo GDC Data Portal) ·
+              <strong>CPTAC</strong> ·
+              <strong>NCT-CRC-HE-100K</strong> (tecido colorretal) ·
+              <strong>MIDOG</strong> (mitoses, com desafio de domínio) ·
+              <strong>BreakHis</strong>. Baixe pelo menos uma WSI de verdade e abra no QuPath.
+            </span>
+          </span></label></li>
+        </ul>
+      </div>
+
+      <div class="track track--reg">
+        <div class="track-head"><span>Regulatória &amp; clínica</span></div>
+        <ul class="items">
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Notificação × Registro na Anvisa</span>
+            <span class="item-meta"><span class="tag">norma</span></span>
+            <span class="item-note">Classes I e II seguem via notificação (mais rápida, menos exigente); III e IV exigem registro, com dossiê técnico completo. Um SaMD que <em>diz o diagnóstico</em> tende a cair em classe alta — e é isso que determina se seu caminho leva meses ou anos.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Boas práticas de fabricação e ciclo de vida de software</span>
+            <span class="item-meta"><span class="tag">norma</span></span>
+            <span class="item-note">RDC de BPF para dispositivos médicos + <strong>IEC 62304</strong> (ciclo de vida de software médico). A implicação prática começa agora: rastreabilidade de requisitos, versionamento, registro de mudanças. Adotar o hábito cedo é barato; adotar depois é uma refatoração dolorosa.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">ISO 14971 — gestão de risco</span>
+            <span class="item-meta"><span class="tag">norma</span></span>
+            <span class="item-note">Como se documenta o raciocínio "o que acontece se o modelo errar, e o que mitiga isso". Para você isso é natural: é raciocínio de risco diagnóstico, só que num formulário.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Caminho ético: CEP/CONEP e Plataforma Brasil</span>
+            <span class="item-meta"><span class="tag">ação</span></span>
+            <span class="item-note">Se você quiser usar casos do seu serviço, precisa de projeto aprovado em Comitê de Ética. Comece a redigir o protocolo já nesta fase — a tramitação leva meses e é o gargalo mais subestimado de todo o roadmap.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Anonimização de WSI</span>
+            <span class="item-meta"><span class="tag">prática</span></span>
+            <span class="item-note">Arquivos de lâmina carregam metadados e, com frequência, a <em>imagem do rótulo</em> com nome e registro do paciente. Saiba remover as duas coisas antes de mover qualquer arquivo. Isso é LGPD, não zelo.</span>
+          </span></label></li>
+        </ul>
+      </div>
+
+      <div class="track track--prod">
+        <div class="track-head"><span>Produto &amp; negócio</span></div>
+        <ul class="items">
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Três one-pagers de hipótese de produto</span>
+            <span class="item-meta"><span class="tag">ação</span></span>
+            <span class="item-note">Uma página cada: quem sofre, o que dói, o que o software faz, por que agora, o que precisaria ser verdade. Um deles deve ser deliberadamente <em>não</em>-diagnóstico, para você comparar caminhos regulatórios de verdade.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Entender como um laboratório realmente compra</span>
+            <span class="item-meta"><span class="tag">pesquisa</span></span>
+            <span class="item-note">Quem propõe, quem aprova, quem paga; capex vs. opex; ciclo de decisão; se existe verba de TI separada. Pergunte a um diretor técnico e a um administrador — as respostas costumam não bater, e essa discrepância é informação.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">O problema do reembolso no Brasil</span>
+            <span class="item-meta"><span class="tag">crítico</span></span>
+            <span class="item-note">Não existe código TUSS para "análise por IA". Sem código, não há receita nova — só economia de custo ou ganho de capacidade. Isso <strong>define</strong> como seu produto deve ser precificado e vendido aqui, e é a razão pela qual muita coisa que funciona nos EUA não se traduz.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Integração é a barreira real de venda</span>
+            <span class="item-meta"><span class="tag">pesquisa</span></span>
+            <span class="item-note">Descubra qual sistema de laudo (LIS/AP-LIS) seu serviço usa e se ele tem API. O melhor modelo do mundo não é comprado se obrigar o patologista a sair do sistema onde ele trabalha. Vários concorrentes morreram exatamente aí.</span>
+          </span></label></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="marco">
+      <div class="marco-head"><span class="eyebrow">Marco de checagem — Fase 2</span></div>
+      <ul>
+        <li><strong>Técnica:</strong> dada uma <code>.svs</code> qualquer, você faz tiling com filtro de tecido, roda um classificador de patches e devolve um mapa de calor sobreposto à lâmina — sozinho, do zero, num notebook seu.</li>
+        <li><strong>Regulatória:</strong> você classifica corretamente cada um dos seus três one-pagers em classe de risco Anvisa e estima o caminho (notificação ou registro) para cada.</li>
+        <li><strong>Produto:</strong> você sabe nomear, para o seu serviço, quem assina um contrato de software, qual o orçamento anual disponível e qual sistema o software teria de conversar.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GATE ============ -->
+<section class="gate" id="gate">
+  <div class="shell">
+    <div class="gate-head">
+      <p class="eyebrow">Ponto de decisão · entre a Fase 2 e a Fase 3</p>
+      <h2>Escolher a vertical</h2>
+      <p>
+        Você chegou aqui sem ter decidido que tipo de produto quer construir — o que é a decisão certa,
+        porque agora você tem as informações que faltavam. As três verticais abaixo divergem
+        fortemente em risco, prazo e no que a Fase 4 vai exigir. Escolha uma como caminho principal;
+        as outras continuam disponíveis como plano B.
+      </p>
+    </div>
+    <div class="forks">
+      <div class="fork">
+        <h3>A · Diagnóstico ou prognóstico</h3>
+        <dl>
+          <div class="fork-row"><dt>Exemplos</dt><dd>Detecção de carcinoma em biópsia, grading automatizado, biomarcador predito a partir de H&amp;E, escore de IHQ.</dd></div>
+          <div class="fork-row"><dt>Regulatório</dt><dd><strong>Classe alta</strong> — registro na Anvisa, dossiê completo, estudo clínico multicêntrico, SGQ formal.</dd></div>
+          <div class="fork-row"><dt>Prazo até receita</dt><dd>Anos. Capital intensivo desde cedo.</dd></div>
+          <div class="fork-row"><dt>Escolha se</dt><dd>Suas entrevistas apontaram para uma dor diagnóstica <em>específica e cara</em>, você tem acesso a coortes anotadas, e há apetite para captar investimento.</dd></div>
+        </dl>
+      </div>
+      <div class="fork">
+        <h3>B · Fluxo de trabalho e produtividade</h3>
+        <dl>
+          <div class="fork-row"><dt>Exemplos</dt><dd>Triagem e priorização de fila, controle de qualidade de lâmina, busca por caso semelhante, estruturação de laudo, conferência de amostra, pré-contagem.</dd></div>
+          <div class="fork-row"><dt>Regulatório</dt><dd><strong>Leve</strong> — se o software não interpreta nem sugere diagnóstico, tende a ficar fora do escopo de SaMD. O desenho do produto é o que decide isso.</dd></div>
+          <div class="fork-row"><dt>Prazo até receita</dt><dd>Meses. Dá para vender antes de qualquer aprovação.</dd></div>
+          <div class="fork-row"><dt>Escolha se</dt><dd>O diário de rotina da Fase 0 e as entrevistas apontaram para tempo perdido em tarefas não-interpretativas. <strong>É a melhor porta de entrada</strong> — e a que constrói distribuição para depois lançar A.</dd></div>
+        </dl>
+      </div>
+      <div class="fork">
+        <h3>C · Plataforma e pesquisa</h3>
+        <dl>
+          <div class="fork-row"><dt>Exemplos</dt><dd>Ferramentas de anotação, gestão de acervo de WSI, extração de features para ensaios clínicos, serviços para farmacêuticas e grupos de pesquisa.</dd></div>
+          <div class="fork-row"><dt>Regulatório</dt><dd><strong>Quase nulo</strong> — uso em pesquisa, não em diagnóstico. Marcar "for research use only" resolve a maior parte.</dd></div>
+          <div class="fork-row"><dt>Prazo até receita</dt><dd>Meses, com contratos B2B maiores por cliente.</dd></div>
+          <div class="fork-row"><dt>Escolha se</dt><dd>Você tem acesso ou proximidade a grupos de pesquisa e à indústria farmacêutica, e prefere poucos contratos grandes a muitos pequenos.</dd></div>
+        </dl>
+      </div>
+    </div>
+    <div class="note warn">
+      <h3>A recomendação, se você quiser uma</h3>
+      <p>
+        Comece por <strong>B</strong> mesmo que seu objetivo final seja <strong>A</strong>. Um produto de fluxo de
+        trabalho te dá o que dinheiro não compra: clientes reais, dados reais entrando por um canal legítimo,
+        integração já instalada no laboratório e credibilidade quando você aparecer com um produto diagnóstico.
+        Praticamente todo mundo que tentou começar por A sem esses ativos gastou anos e capital antes do primeiro faturamento.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FASE 3 ============ -->
+<section class="phase" id="f3">
+  <div class="shell">
+    <div class="phase-head">
+      <div class="phase-top">
+        <span class="phase-num">FASE 3</span>
+        <h2>Patologia computacional de verdade</h2>
+        <span class="phase-span">≈ 9–14 meses</span>
+      </div>
+      <p class="phase-thesis">
+        A fase que separa quem sabe deep learning de quem sabe patologia computacional.
+        Dois conceitos dominam tudo: <strong>MIL</strong> (aprender com rótulo só no nível do caso)
+        e <strong>foundation models</strong> (não treinar o extrator, usar um pronto).
+        Esta é exatamente a fase em que não ter GPU deixa de ser um problema.
+      </p>
+    </div>
+
+    <div class="tracks">
+      <div class="track track--tec">
+        <div class="track-head"><span>Técnica</span></div>
+        <ul class="items">
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Multiple Instance Learning — o paradigma central</span>
+            <span class="item-meta"><span class="tag">paper</span><span class="tag">fundamental</span></span>
+            <span class="item-note">Uma lâmina é um "saco" de milhares de tiles com um único rótulo. Leia em ordem: Ilse et al. (ABMIL, 2018) → Campanella et al. (<em>Nature Medicine</em>, 2019, MIL em escala clínica) → Lu et al. (CLAM, <em>Nature BME</em>, 2021) → Shao et al. (TransMIL, 2021).</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">CLAM — rodar o repositório de ponta a ponta</span>
+            <span class="item-meta"><span class="tag">repo</span><span class="tag">projeto</span></span>
+            <span class="item-note"><a href="https://github.com/mahmoodlab/CLAM">mahmoodlab/CLAM</a>. Segmentação, patching, extração de features, treino do agregador, mapas de atenção. Rodar isso inteiro numa coorte do TCGA é o rito de passagem da área.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Foundation models de patologia — usar, não treinar</span>
+            <span class="item-meta"><span class="tag">modelo</span><span class="tag">crítico</span></span>
+            <span class="item-note">
+              <strong>UNI</strong> (Chen et al., <em>Nature Medicine</em> 2024, Mahmood Lab) ·
+              <strong>CONCH</strong> e <strong>TITAN</strong> (visão-linguagem) ·
+              <strong>Virchow / Virchow2</strong> (Paige) ·
+              <strong>Prov-GigaPath</strong> (Microsoft/Providence, <em>Nature</em> 2024) ·
+              <strong>Phikon</strong> (Owkin) · <strong>H-optimus</strong> (Bioptimus) · <strong>Hibou</strong>.
+              A maioria está no Hugging Face sob licença de pesquisa — leia os termos antes de assumir uso comercial.
+            </span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Padrão de trabalho sem GPU: extrair uma vez, treinar muitas</span>
+            <span class="item-meta"><span class="tag">prática</span></span>
+            <span class="item-note">Rode o foundation model congelado uma única vez por lâmina, salve os vetores de features em disco, e a partir daí itere no agregador — que treina em CPU em minutos. A extração é o único passo caro, e é feita uma vez só.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Frameworks modernos de pipeline WSI</span>
+            <span class="item-meta"><span class="tag">repo</span></span>
+            <span class="item-note"><code>trident</code> (Mahmood Lab, extração de features em escala), <code>eva</code> (kaiko.ai, benchmark padronizado de foundation models), MONAI (o padrão de imagem médica em PyTorch).</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Avaliação honesta — a habilidade que mais vale aqui</span>
+            <span class="item-meta"><span class="tag">método</span><span class="tag">crítico</span></span>
+            <span class="item-note">Divisão por <em>paciente</em>, nunca por lâmina (vazamento clássico). Validação externa em outro centro. Calibração, não só discriminação. Análise por subgrupo. Intervalo de confiança. Um modelo com AUC 0,92 bem avaliado vale mais que um de 0,98 com vazamento — e você vai encontrar muito 0,98 com vazamento.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Mudança de domínio: o problema não resolvido da área</span>
+            <span class="item-meta"><span class="tag">conceito</span></span>
+            <span class="item-note">Scanner diferente, coloração diferente, laboratório diferente — e o desempenho cai. O desafio MIDOG existe só por causa disso. Como patologista você tem intuição visual do porquê; use isso, é uma vantagem real de diagnóstico de modelo.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Ler papers como rotina permanente</span>
+            <span class="item-meta"><span class="tag">hábito</span></span>
+            <span class="item-note">Um paper por semana, para sempre. Fontes: arXiv (cs.CV), <em>Modern Pathology</em>, <em>Journal of Pathology Informatics</em>, <em>Nature Medicine</em>, <em>Medical Image Analysis</em>, anais do MICCAI/COMPAY.</span>
+          </span></label></li>
+        </ul>
+      </div>
+
+      <div class="track track--reg">
+        <div class="track-head"><span>Regulatória &amp; clínica</span></div>
+        <ul class="items">
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Escrever um plano de validação clínica completo</span>
+            <span class="item-meta"><span class="tag">ação</span></span>
+            <span class="item-note">Para a sua vertical escolhida: população, critérios de inclusão, padrão de referência (consenso de quantos patologistas?), desfecho primário, cálculo de tamanho amostral, margem de não-inferioridade. Este documento é um ativo — investidor e regulador pedem os dois.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">ISO 13485 — sistema de gestão da qualidade</span>
+            <span class="item-meta"><span class="tag">norma</span></span>
+            <span class="item-note">Se sua vertical for A, isso é obrigatório e não é opcional adiar. Entenda o escopo agora para orçar: consultoria regulatória especializada é despesa real e vale mais que tentar sozinho.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Aprovação do CEP obtida</span>
+            <span class="item-meta"><span class="tag">marco</span></span>
+            <span class="item-note">Se você iniciou o protocolo na Fase 2, deve estar aprovado por aqui. É o que destrava trabalhar com casos do seu próprio serviço — e é a sua maior vantagem competitiva materializada.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Olhar para fora: FDA e União Europeia</span>
+            <span class="item-meta"><span class="tag">contexto</span></span>
+            <span class="item-note">FDA: 510(k) vs. De Novo, e o <em>Predetermined Change Control Plan</em> — o mecanismo que permite atualizar um modelo sem reabrir o processo. UE: IVDR e o AI Act, que classifica IA diagnóstica como alto risco. Você não vai submeter agora, mas as decisões de arquitetura que toma nesta fase determinam se isso será viável depois.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Publicar algo</span>
+            <span class="item-meta"><span class="tag">ação</span></span>
+            <span class="item-note">Um resumo em congresso (CBP, USCAP, Pathology Visions) ou um artigo curto. Você é patologista com resultado computacional — essa combinação abre portas que nenhum dos dois grupos abre sozinho.</span>
+          </span></label></li>
+        </ul>
+      </div>
+
+      <div class="track track--prod">
+        <div class="track-head"><span>Produto &amp; negócio</span></div>
+        <ul class="items">
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Uma carta de intenção assinada</span>
+            <span class="item-meta"><span class="tag">marco</span><span class="tag">crítico</span></span>
+            <span class="item-note">De um laboratório disposto a pilotar. Não vincula ninguém a nada, mas separa interesse real de gentileza — e é o sinal de validação que mais pesa com investidor. Se você não conseguir nenhuma, o problema é o produto, não a venda.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Definir modelo de precificação</span>
+            <span class="item-meta"><span class="tag">decisão</span></span>
+            <span class="item-note">Por lâmina, por assinatura mensal, por unidade, ou licença perpétua. Sem código TUSS, sua proposta é economia de custo ou aumento de capacidade — então precifique como fração do que economiza, com o cálculo escrito.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Protótipo que um patologista consegue usar sozinho</span>
+            <span class="item-meta"><span class="tag">projeto</span></span>
+            <span class="item-note">Não um notebook. Uma extensão de QuPath, um app web simples ou uma ferramenta com interface — algo que você coloca na frente de um colega sem estar do lado explicando. Feedback só é honesto quando você não está segurando a mão.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Mapear o financiamento não-diluidor brasileiro</span>
+            <span class="item-meta"><span class="tag">pesquisa</span></span>
+            <span class="item-note">FINEP, PIPE/FAPESP, EMBRAPII, editais do CNPq, linhas do BNDES. Para healthtech em fase inicial no Brasil, isso frequentemente chega antes e mais barato que venture capital — e não custa participação societária.</span>
+          </span></label></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="marco">
+      <div class="marco-head"><span class="eyebrow">Marco de checagem — Fase 3</span></div>
+      <ul>
+        <li><strong>Técnica:</strong> você extrai features de uma coorte de WSIs com um foundation model congelado, treina um agregador MIL na CPU, e reporta AUC com validação cruzada estratificada por paciente e curva de calibração. E consegue explicar, sem defensividade, por que seu modelo perde desempenho num scanner diferente.</li>
+        <li><strong>Regulatória:</strong> existe um plano de validação clínica escrito, com tamanho amostral calculado, que um consultor regulatório leria sem rir.</li>
+        <li><strong>Produto:</strong> uma carta de intenção assinada e um protótipo que um colega usou sozinho, sem você na sala.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FASE 4 ============ -->
+<section class="phase" id="f4">
+  <div class="shell">
+    <div class="phase-head">
+      <div class="phase-top">
+        <span class="phase-num">FASE 4</span>
+        <h2>Do protótipo ao produto</h2>
+        <span class="phase-span">≈ 12–18 meses</span>
+      </div>
+      <p class="phase-thesis">
+        Aqui o gargalo deixa de ser modelagem e passa a ser engenharia, integração e conformidade.
+        É também onde você deve parar de fazer tudo sozinho: seu papel vira definir, avaliar e
+        contratar quem faz melhor que você.
+      </p>
+    </div>
+
+    <div class="tracks">
+      <div class="track track--tec">
+        <div class="track-head"><span>Técnica</span></div>
+        <ul class="items">
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Servir modelo em produção</span>
+            <span class="item-meta"><span class="tag">stack</span></span>
+            <span class="item-note">FastAPI para a API, Docker para empacotar, uma fila (Celery ou RQ) porque processar uma WSI leva minutos e não pode bloquear requisição, armazenamento de objetos (S3 ou MinIO no local do cliente).</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Visualização de lâmina no navegador</span>
+            <span class="item-meta"><span class="tag">stack</span></span>
+            <span class="item-note">OpenSeadragon para navegação em pirâmide de zoom, com sobreposição de resultados. Ou, se a vertical permitir, entregar dentro do QuPath e evitar construir viewer — que é um projeto inteiro por si só.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Interoperabilidade: DICOM WSI, HL7/FHIR, LIS</span>
+            <span class="item-meta"><span class="tag">stack</span><span class="tag">crítico</span></span>
+            <span class="item-note">A integração vale mais que o modelo na hora de fechar contrato. Estude DICOM WSI e DICOMweb, e projete para entrar no sistema onde o patologista já trabalha, não ao lado dele.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">MLOps mínimo, mas de verdade</span>
+            <span class="item-meta"><span class="tag">stack</span></span>
+            <span class="item-note">Versionamento de dados e modelos (DVC, MLflow), registro de qual versão gerou qual resultado, monitoramento de deriva de distribuição em produção. A rastreabilidade aqui é exigência da IEC 62304, não capricho de engenharia.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Saber quando parar de codar</span>
+            <span class="item-meta"><span class="tag">decisão</span></span>
+            <span class="item-note">Sinais de que chegou a hora de contratar: você está debugando infra em vez de falar com clientes; problemas de desempenho exigem CUDA; um cliente pediu <em>uptime</em>. Seu diferencial nunca foi ser o melhor engenheiro — é ser o fundador que entende o problema clínico.</span>
+          </span></label></li>
+        </ul>
+      </div>
+
+      <div class="track track--reg">
+        <div class="track-head"><span>Regulatória &amp; clínica</span></div>
+        <ul class="items">
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Executar o estudo de validação</span>
+            <span class="item-meta"><span class="tag">marco</span></span>
+            <span class="item-note">Coorte independente, de preferência multicêntrica e com scanner diferente do de treino. Este é o dado que sustenta tanto a submissão quanto a próxima rodada de captação.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Implantar o SGQ (ou contratar quem implanta)</span>
+            <span class="item-meta"><span class="tag">ação</span></span>
+            <span class="item-note">ISO 13485 e BPF. Consultoria regulatória especializada em dispositivos médicos: custo real de orçamento, mas errar o dossiê sozinho custa mais em tempo perdido do que a consultoria em dinheiro.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Montar o dossiê técnico e a IFU</span>
+            <span class="item-meta"><span class="tag">ação</span></span>
+            <span class="item-note">Descrição do dispositivo, gestão de risco, verificação e validação, evidência clínica, rotulagem e instruções de uso. A indicação de uso é uma decisão <em>estratégica</em>, não burocrática: escopo estreito aprova mais rápido e vende para menos gente.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Vigilância pós-mercado</span>
+            <span class="item-meta"><span class="tag">norma</span></span>
+            <span class="item-note">Tecnovigilância, registro e notificação de queixas, plano de atualização de modelo. Aprovar é o começo do processo, não o fim — e um modelo que muda sem plano formal é um problema regulatório.</span>
+          </span></label></li>
+        </ul>
+      </div>
+
+      <div class="track track--prod">
+        <div class="track-head"><span>Produto &amp; negócio</span></div>
+        <ul class="items">
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Piloto pago em 1–2 laboratórios</span>
+            <span class="item-meta"><span class="tag">marco</span><span class="tag">crítico</span></span>
+            <span class="item-note">Pago, mesmo que simbólico. Piloto gratuito não prova nada além de curiosidade — quem paga cobra, e cobrança é o único feedback totalmente honesto que existe.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Constituir a empresa e resolver a PI</span>
+            <span class="item-meta"><span class="tag">ação</span></span>
+            <span class="item-note">Sociedade, acordo de sócios com vesting, e — atenção — a titularidade do que foi desenvolvido usando infraestrutura ou dados da sua instituição. Resolva isso <em>antes</em> de ter valor, porque depois vira conflito.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Encontrar o sócio complementar</span>
+            <span class="item-meta"><span class="tag">ação</span></span>
+            <span class="item-note">Você cobre domínio clínico e produto. Falta engenharia sênior ou o comercial B2B para saúde. Fundador solo em dispositivo médico regulado é raro por um motivo.</span>
+          </span></label></li>
+          <li><label class="item"><input type="checkbox" /><span class="item-body">
+            <span class="item-title">Captação, se e quando fizer sentido</span>
+            <span class="item-meta"><span class="tag">decisão</span></span>
+            <span class="item-note">Ordem que costuma funcionar: não-diluidor (FINEP, PIPE) → anjos, frequentemente médicos → VC de healthtech. Vertical B pode nunca precisar de VC; vertical A quase certamente precisa.</span>
+          </span></label></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="marco">
+      <div class="marco-head"><span class="eyebrow">Marco de checagem — Fase 4</span></div>
+      <ul>
+        <li><strong>Técnica:</strong> existe um sistema instalado rodando sem você presente, que processa lâminas de um laboratório real e devolve resultado dentro do fluxo de trabalho deles.</li>
+        <li><strong>Regulatória:</strong> dossiê submetido (ou justificativa documentada de por que seu produto não é dispositivo médico, revisada por alguém competente).</li>
+        <li><strong>Produto:</strong> um cliente pagante que renovou. A renovação é o sinal, não a primeira assinatura.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FASE 5 ============ -->
+<section class="phase" id="f5">
+  <div class="shell">
+    <div class="phase-head">
+      <div class="phase-top">
+        <span class="phase-num">FASE 5</span>
+        <h2>Escala</h2>
+        <span class="phase-span">horizonte aberto</span>
+      </div>
+      <p class="phase-thesis">
+        A partir daqui o roadmap deixa de ser de aprendizado e vira de execução — e o seu tempo
+        migra de construir para decidir. As frentes abaixo não têm ordem.
+      </p>
+    </div>
+    <div class="cols2">
+      <div>
+        <h3>Expansão de produto</h3>
+        <ul>
+          <li><strong>Segundo órgão ou segunda indicação</strong> — reaproveita pipeline, exige nova validação e possivelmente nova submissão.</li>
+          <li><strong>De ferramenta para plataforma</strong> — quando você tem distribuição instalada, o próximo produto custa uma fração do primeiro.</li>
+          <li><strong>Efeito de dados</strong> — cada laboratório integrado melhora o modelo para todos, se os contratos permitirem. Essa cláusula é decidida no primeiro contrato.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Expansão geográfica</h3>
+        <ul>
+          <li><strong>América Latina</strong> — vários países reconhecem ou simplificam a partir do registro Anvisa.</li>
+          <li><strong>União Europeia</strong> — marcação CE sob IVDR, via organismo notificado, mais o AI Act.</li>
+          <li><strong>Estados Unidos</strong> — 510(k) se houver predicado, De Novo se não houver. Considere o PCCP desde o desenho.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Sua evolução técnica contínua</h3>
+        <ul>
+          <li>Modelos multimodais: imagem + genômica + texto clínico, a fronteira atual da área.</li>
+          <li>Modelos de linguagem-visão aplicados a lâmina, e geração de laudo.</li>
+          <li>Interpretabilidade — vai deixar de ser diferencial e virar exigência regulatória.</li>
+          <li>Um paper por semana, indefinidamente. Isso não acaba.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STACK ============ -->
+<section class="band" id="stack">
+  <div class="shell">
+    <div class="band-head">
+      <p class="eyebrow">Referência rápida</p>
+      <h2>Stack técnico, por camada</h2>
+      <p>O que instalar e quando. Nada aqui exige GPU própria até a extração de features da Fase 3.</p>
+    </div>
+    <div class="cols2">
+      <div>
+        <h3>Linguagem e base</h3>
+        <ul>
+          <li><strong>Python</strong> — única linguagem que importa nesta área. Groovy só para scripts do QuPath.</li>
+          <li><strong>NumPy, pandas, matplotlib</strong> — base de dados e gráficos.</li>
+          <li><strong>scikit-learn</strong> — ML clássico, métricas, validação cruzada. Você vai usar isso a vida inteira.</li>
+          <li><strong>Git + GitHub</strong> — desde a Fase 0, sem exceção.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Deep learning</h3>
+        <ul>
+          <li><strong>PyTorch</strong> — o padrão absoluto da patologia computacional.</li>
+          <li><strong>timm</strong> — catálogo de arquiteturas de visão pré-treinadas.</li>
+          <li><strong>Hugging Face</strong> — de onde vêm os foundation models de patologia.</li>
+          <li><strong>MONAI</strong> — utilitários específicos de imagem médica.</li>
+          <li><strong>Weights &amp; Biases</strong> — registrar experimentos. Grátis para uso individual.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Imagem de lâmina</h3>
+        <ul>
+          <li><strong>OpenSlide</strong> — leitura de WSI proprietária.</li>
+          <li><strong>TIAToolbox</strong> — pipeline completo de patologia computacional.</li>
+          <li><strong>QuPath</strong> — sua bancada digital, e a via mais rápida para colocar protótipo na mão de um colega.</li>
+          <li><strong>torchstain</strong> — normalização de coloração.</li>
+          <li><strong>libvips / pyvips</strong> — manipulação de imagem gigante sem estourar a memória.</li>
+          <li><strong>CLAM, trident</strong> — MIL e extração de features em escala.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Produto e infraestrutura</h3>
+        <ul>
+          <li><strong>FastAPI</strong> + <strong>Docker</strong> — servir o modelo.</li>
+          <li><strong>Celery / RQ</strong> — fila para processamento longo.</li>
+          <li><strong>PostgreSQL</strong>, <strong>MinIO ou S3</strong> — dados e arquivos.</li>
+          <li><strong>OpenSeadragon</strong> — visualização de lâmina no navegador.</li>
+          <li><strong>DVC / MLflow</strong> — rastreabilidade de dados e modelos, exigida pela IEC 62304.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Computação, na ordem em que você vai precisar</h3>
+        <ul>
+          <li><strong>Colab gratuito</strong> — Fases 0 a 2 inteiras. Suficiente.</li>
+          <li><strong>Colab Pro</strong> — poucas dezenas de reais/mês, resolve a maior parte da Fase 3.</li>
+          <li><strong>RunPod, Lambda, Vast.ai</strong> — GPU por hora, para as extrações grandes. Pague só o que rodar.</li>
+          <li><strong>GPU própria</strong> — só faz sentido quando o gasto mensal em nuvem passar a doer. Provavelmente nunca, no seu perfil.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Onde acompanhar a área</h3>
+        <ul>
+          <li><strong>arXiv cs.CV</strong> e <strong>MICCAI / COMPAY</strong> — a fronteira.</li>
+          <li><strong>Modern Pathology</strong>, <strong>Journal of Pathology Informatics</strong>, <strong>Medical Image Analysis</strong>.</li>
+          <li><strong>Digital Pathology Association</strong> e o congresso Pathology Visions.</li>
+          <li><strong>Grand Challenge</strong> — desafios abertos com dados e ranking públicos.</li>
+          <li><strong>Sociedade Brasileira de Patologia</strong> e o CBP — sua rede de distribuição, literalmente.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ARMADILHAS ============ -->
+<section class="band" id="armadilhas">
+  <div class="shell">
+    <div class="band-head">
+      <p class="eyebrow">O que costuma dar errado</p>
+      <h2>Sete armadilhas específicas deste caminho</h2>
+      <p>Nenhuma delas é sobre falta de inteligência ou de esforço. São erros de sequência.</p>
+    </div>
+    <div class="traps">
+      <div class="trap">
+        <h3>Estudar por três anos antes de falar com alguém</h3>
+        <p>A trilha de produto começa na <strong>Fase 0</strong>, não depois da técnica. Conversar com colegas custa horas e pode economizar anos construindo a coisa errada. Se você adiar isso, vai adiar até ser tarde.</p>
+      </div>
+      <div class="trap">
+        <h3>Tentar treinar um foundation model</h3>
+        <p>Custa milhões de dólares em computação e não é onde está o seu diferencial. Congele o de outra pessoa. Seu valor está no problema clínico que você escolhe e nos dados que só você consegue.</p>
+      </div>
+      <div class="trap">
+        <h3>Confundir AUC alta com produto</h3>
+        <p>Quase todo modelo publicado tem AUC alta na coorte de origem. O que separa produto de exercício é generalizar para outro scanner, outro laboratório e outra rotina de coloração — e isso raramente aparece no notebook.</p>
+      </div>
+      <div class="trap">
+        <h3>Vazamento por paciente</h3>
+        <p>Duas lâminas do mesmo paciente em treino e teste inflam a métrica de forma espetacular e silenciosa. É o erro mais comum da área e, quando descoberto tarde, invalida meses de trabalho.</p>
+      </div>
+      <div class="trap">
+        <h3>Descobrir o regulatório no fim</h3>
+        <p>Decisões de arquitetura, de dado e de indicação de uso tomadas na Fase 3 determinam se a submissão da Fase 4 é viável. Reconstruir rastreabilidade retroativamente é caro; construir junto é quase de graça.</p>
+      </div>
+      <div class="trap">
+        <h3>Ignorar a integração</h3>
+        <p>Se o patologista precisa sair do sistema de laudo para usar sua ferramenta, ele não usa. Cemitério cheio de produtos tecnicamente superiores que perderam para produtos que já estavam dentro do fluxo.</p>
+      </div>
+      <div class="trap">
+        <h3>Copiar o modelo de negócio americano</h3>
+        <p>Lá existe caminho de reembolso e há muito mais laboratório digitalizado. No Brasil, sem código TUSS, sua venda é economia de custo e ganho de capacidade — outra proposta, outro discurso, outro preço.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="shell">
+    <p class="eyebrow">Sobre este documento</p>
+    <p>
+      Roadmap construído para um perfil específico: patologista em atividade clínica, com programação básica,
+      sem formação em ML, sem GPU dedicada, mirando o mercado brasileiro primeiro e com a vertical de produto
+      ainda em aberto. Os intervalos de tempo assumem ritmo part-time consistente e são referência, não prazo.
+    </p>
+    <p>
+      As referências normativas (RDCs da Anvisa, resoluções do CFM, normas ISO/IEC) mudam com frequência —
+      confirme sempre o texto vigente nas fontes oficiais antes de tomar decisão de produto com base nelas.
+      Este documento é material de estudo e planejamento, não orientação regulatória ou jurídica.
+      Seu progresso fica salvo apenas neste navegador.
+    </p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var KEY = "roadmap-patologia-ia:v1";
+  var boxes = Array.prototype.slice.call(document.querySelectorAll(".item input[type=checkbox]"));
+  var fill = document.getElementById("meterFill");
+  var num  = document.getElementById("meterNum");
+
+  boxes.forEach(function(b,i){ b.dataset.idx = String(i); });
+
+  function load(){
+    var raw;
+    try { raw = localStorage.getItem(KEY); } catch(e){ return; }
+    if(!raw) return;
+    var done;
+    try { done = JSON.parse(raw); } catch(e){ return; }
+    if(!Array.isArray(done)) return;
+    done.forEach(function(i){ if(boxes[i]) boxes[i].checked = true; });
+  }
+
+  function save(){
+    var done = boxes.reduce(function(acc,b,i){ if(b.checked) acc.push(i); return acc; }, []);
+    try { localStorage.setItem(KEY, JSON.stringify(done)); } catch(e){}
+  }
+
+  function render(){
+    var done = boxes.filter(function(b){ return b.checked; }).length;
+    var pct = boxes.length ? (done / boxes.length) * 100 : 0;
+    fill.style.width = pct.toFixed(1) + "%";
+    num.textContent = done + " / " + boxes.length;
+  }
+
+  boxes.forEach(function(b){
+    b.addEventListener("change", function(){ save(); render(); });
+  });
+
+  document.getElementById("resetBtn").addEventListener("click", function(){
+    if(!window.confirm("Desmarcar todos os itens do roadmap?")) return;
+    boxes.forEach(function(b){ b.checked = false; });
+    save(); render();
+  });
+
+  load();
+  render();
+
+  /* nav ativa conforme a seção visível */
+  var links = Array.prototype.slice.call(document.querySelectorAll("#railNav a"));
+  var targets = links
+    .map(function(a){ return document.querySelector(a.getAttribute("href")); })
+    .filter(Boolean);
+
+  if("IntersectionObserver" in window && targets.length){
+    var visible = new Set();
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting) visible.add(e.target.id); else visible.delete(e.target.id);
+      });
+      var current = null;
+      for(var i=0;i<targets.length;i++){
+        if(visible.has(targets[i].id)){ current = targets[i].id; break; }
+      }
+      links.forEach(function(a){
+        a.classList.toggle("on", current !== null && a.getAttribute("href") === "#" + current);
+      });
+    }, { rootMargin: "-56px 0px -70% 0px", threshold: 0 });
+    targets.forEach(function(t){ io.observe(t); });
+  }
+})();
+</script>
+
+</body>
+</html>

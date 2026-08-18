@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Meus roadmaps de estudo</title>
+<meta name="description" content="Fluxogramas de estudo com controle de progresso, anotações e sincronização." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>" />
+<!-- O ?v= é trocado pelo hash do commit durante a publicação, para que
+     um deploy novo nunca seja servido com arquivo antigo em cache. -->
+<link rel="stylesheet" href="assets/app.css?v=e9ed2a8" />
+</head>
+<body>
+
+<header class="top">
+  <div class="shell top-in">
+    <button class="marca" id="btn-marca" type="button">
+      <span class="marca-ico">🧭</span>
+      <span>Meus roadmaps</span>
+    </button>
+
+    <div id="topo-contexto"></div>
+    <div class="top-sep"></div>
+
+    <span class="sync-sinal" id="sync-sinal" data-estado="local" hidden></span>
+
+    <button class="btn btn--sutil" id="btn-exportar" type="button" title="Baixar progresso, anotações e histórico" aria-label="Exportar progresso">
+      <span aria-hidden="true">↓</span><span class="btn-rot">Exportar</span>
+    </button>
+    <button class="btn btn--sutil" id="btn-importar" type="button" title="Carregar um arquivo exportado" aria-label="Importar progresso">
+      <span aria-hidden="true">↑</span><span class="btn-rot">Importar</span>
+    </button>
+    <input type="file" id="arquivo-importar" accept="application/json,.json" hidden />
+
+    <button class="btn btn--sutil" id="btn-tema" type="button" title="Alternar tema claro e escuro" aria-label="Alternar tema">◐</button>
+
+    <button class="btn btn--forte" id="btn-entrar" type="button" hidden>
+      <span aria-hidden="true">◆</span><span class="btn-rot">Entrar com Google</span>
+    </button>
+    <div class="conta" id="conta" hidden></div>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<footer class="rodape">
+  <div class="shell">
+    <p class="eyebrow">Sobre</p>
+    <p>
+      Controle pessoal de estudos. Cada roadmap é um fluxograma navegável: as fases avançam da
+      esquerda para a direita e as trilhas correm em paralelo. O progresso fica salvo neste
+      navegador e, se você entrar com o Google, sincroniza entre dispositivos.
+    </p>
+    <p>
+      Roadmaps que citam normas técnicas ou regulatórias são material de estudo, não orientação
+      profissional — confirme sempre o texto vigente nas fontes oficiais.
+    </p>
+  </div>
+</footer>
+
+<dialog class="modal" id="modal" aria-label="Detalhes do bloco"></dialog>
+<div class="brinde" id="brinde" role="status" aria-live="polite"></div>
+
+<!-- Configuração e sincronização (opcionais: sem elas, o site roda em modo local) -->
+<script src="assets/firebase-config.js?v=e9ed2a8"></script>
+<script type="module" src="assets/sync.js?v=e9ed2a8"></script>
+
+<!-- Motor -->
+<script defer src="assets/app.js?v=e9ed2a8"></script>
+
+<!-- Roadmaps. Para adicionar um novo, crie o arquivo em data/ e some uma linha aqui. -->
+<script defer src="data/patologia-digital.js?v=e9ed2a8"></script>
+<script defer src="data/hematopatologia.js?v=e9ed2a8"></script>
+<script defer src="data/patologia-cabeca-pescoco.js?v=e9ed2a8"></script>
+<script defer src="data/patologia-toracica.js?v=e9ed2a8"></script>
+<script defer src="data/patologia-partes-moles-osso.js?v=e9ed2a8"></script>
+
+</body>
+</html>
